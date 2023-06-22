@@ -1,0 +1,97 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'signing'
+}
+
+group = 'io.vproxy'
+version = '1.0.0'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.zaxxer:HikariCP:5.0.1'
+    implementation 'io.vproxy:vjson:1.5.2'
+
+    testImplementation 'mysql:mysql-connector-java:8.0.33'
+    testImplementation 'org.hsqldb:hsqldb:2.7.2'
+    testImplementation 'junit:junit:4.13.2'
+}
+
+compileJava {
+    doFirst {
+        options.compilerArgs << '--module-path' << classpath.asPath
+    }
+}
+
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
+sourceCompatibility = 11
+targetCompatibility = 11
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+javadoc {
+    exclude '**/*.java'
+}
+
+tasks.withType(GenerateModuleMetadata) {
+    enabled = false
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            artifactId 'easydb'
+
+            pom {
+                name = 'easydb'
+                description = 'a very simple jdbc wrapper, makes it easy to write db operations'
+                url = 'http://github.com/wkgcass/easydb'
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://github.com/wkgcass/easydb/blob/master/LICENSE'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'wkgcass'
+                        name = 'K.G. Wang'
+                        email = 'wkgcass@hotmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/wkgcass/easydb.git'
+                    developerConnection = 'scm:git:git://github.com/wkgcass/easydb.git'
+                    url = 'https://github.com/wkgcass/easydb'
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            credentials {
+                username 'wkgcass'
+                password System.getProperty("MavenPublishPassword")
+            }
+            def releasesRepoUrl = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+            def snapshotsRepoUrl = 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
+            url = version.contains('-DEV') ? snapshotsRepoUrl : releasesRepoUrl
+        }
+    }
+}
+
+signing {
+    if (!System.getProperty("MavenLocalInstall", "false").equals("true")) {
+        sign publishing.publications.maven
+    }
+}
