@@ -8,6 +8,7 @@ import org.junit.runners.Suite;
     BeforeAll.class,
     TestQuery.class,
     TestTransaction.class,
+    TestResourceLeak.class,
 })
 public class Cases {
 }

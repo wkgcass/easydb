@@ -114,4 +114,16 @@ public class PreparedStatementW {
     public PreparedStatement getPreparedStatement() {
         return pstmt;
     }
+
+    public void close() {
+        try {
+            pstmt.close();
+        } catch (SQLException e) {
+            throw new SQLWException(e);
+        } finally {
+            if (connAutoClose != null) {
+                connAutoClose.close();
+            }
+        }
+    }
 }

@@ -8,14 +8,14 @@
 <dependency>
   <groupId>io.vproxy</groupId>
   <artifactId>easydb</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
 </dependency>
 ```
 
 ### gradle
 
 ```groovy
-implementation 'io.vproxy:easydb:1.0.0'
+implementation 'io.vproxy:easydb:1.0.1'
 ```
 
 ### init

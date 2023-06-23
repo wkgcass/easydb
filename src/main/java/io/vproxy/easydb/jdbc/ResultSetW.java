@@ -139,12 +139,7 @@ public class ResultSetW implements AutoCloseable {
         } catch (SQLException e) {
             throw new SQLWException(e);
         } finally {
-            try {
-                pstmt.getPreparedStatement().close();
-            } catch (SQLException e) {
-                //noinspection ThrowFromFinallyBlock
-                throw new SQLWException(e);
-            }
+            pstmt.close();
         }
     }
 
