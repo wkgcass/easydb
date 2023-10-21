@@ -9,6 +9,7 @@ import org.junit.runners.Suite;
     TestQuery.class,
     TestTransaction.class,
     TestResourceLeak.class,
+    TestStringProcessor.class,
 })
 public class Cases {
 }

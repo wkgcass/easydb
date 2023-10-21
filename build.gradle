@@ -30,8 +30,8 @@ compileJava {
 compileJava.options.encoding = "UTF-8"
 compileTestJava.options.encoding = "UTF-8"
 
-sourceCompatibility = 11
-targetCompatibility = 11
+sourceCompatibility = 21
+targetCompatibility = 21
 
 java {
     withSourcesJar()
@@ -42,6 +42,16 @@ javadoc {
     exclude '**/*.java'
 }
 
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+    options.compilerArgs += '--enable-preview'
+}
+tasks.withType(JavaExec) {
+    jvmArgs += '--enable-preview'
+}
+tasks.withType(Test) {
+    jvmArgs += '--enable-preview'
+}
 tasks.withType(GenerateModuleMetadata) {
     enabled = false
 }

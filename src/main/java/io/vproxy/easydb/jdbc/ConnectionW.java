@@ -24,11 +24,22 @@ public class ConnectionW implements AutoCloseable {
     }
 
     public PreparedStatementW prepare(String sql) {
+        return prepare(sql, false);
+    }
+
+    PreparedStatementW prepare(String sql, boolean autoClose) {
         try {
-            return new PreparedStatementW(null, conn.prepareStatement(sql));
+            return new PreparedStatementW(autoClose ? this : null, conn.prepareStatement(sql));
         } catch (SQLException e) {
+            if (autoClose) {
+                close();
+            }
             throw new SQLWException(e);
         }
+    }
+
+    public PreparedStatementProcessor prepare() {
+        return new PreparedStatementProcessor(this, false);
     }
 
     public <T> T transaction(Function<ConnectionW, T> exec) {

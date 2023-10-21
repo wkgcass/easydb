@@ -2,10 +2,7 @@ package io.vproxy.easydb;
 
 import io.vproxy.easydb.jdbc.HikariConfigW;
 import io.vproxy.easydb.jdbc.JDBC;
-import vjson.deserializer.rule.IntRule;
-import vjson.deserializer.rule.ObjectRule;
-import vjson.deserializer.rule.Rule;
-import vjson.deserializer.rule.StringRule;
+import vjson.deserializer.rule.*;
 
 import java.util.UUID;
 
@@ -47,7 +44,7 @@ public class SimpleTest {
         public int age;
         public static final Rule<User> rule = new ObjectRule<>(User::new)
             .put("id", (o, it) -> o.id = it, StringRule.get())
-            .put("name", (o, it) -> o.name = it, StringRule.get())
+            .put("name", (o, it) -> o.name = it, NullableStringRule.get()) // use NullableStringRule for tests in another case
             .put("age", (o, it) -> o.age = it, IntRule.get());
 
         @Override

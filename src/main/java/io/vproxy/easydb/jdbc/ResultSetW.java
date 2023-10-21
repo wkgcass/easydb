@@ -21,6 +21,17 @@ public class ResultSetW implements AutoCloseable {
         this.pstmt = pstmt;
     }
 
+    public long count() {
+        try {
+            rs.next();
+            return rs.getLong(1);
+        } catch (SQLException e) {
+            throw new SQLWException(e);
+        } finally {
+            close();
+        }
+    }
+
     public <T> T convertFirst(Rule<T> rule) {
         //noinspection unchecked
         rule = (Rule<T>) rule.real();
@@ -94,7 +105,10 @@ public class ResultSetW implements AutoCloseable {
             return;
         }
 
-        var fieldRule = field.getRule().real();
+        var fieldRule = field.getRule();
+        if (value != null) {
+            fieldRule = fieldRule.real();
+        }
         Function2 set = field.getSet();
 
         if (value == null) {

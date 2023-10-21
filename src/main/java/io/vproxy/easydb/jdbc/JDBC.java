@@ -39,18 +39,17 @@ public class JDBC {
     }
 
     public PreparedStatementW prepare(String sql) {
+        //noinspection resource
         var conn = connection();
-        PreparedStatementW pstmt;
-        try {
-            pstmt = conn.prepare(sql);
-        } catch (Throwable t) {
-            conn.close();
-            throw t;
-        }
-        return new PreparedStatementW(conn, pstmt.getPreparedStatement());
+        return conn.prepare(sql, true);
     }
 
-    public <T> T transaction(Function<ConnectionW, T> exec) {
+    public PreparedStatementProcessor prepare() {
+        var conn = connection();
+        return new PreparedStatementProcessor(conn, true);
+    }
+
+    public <T> T transactionWithResult(Function<ConnectionW, T> exec) {
         var conn = connection(false);
         try (conn) {
             return conn.transaction(exec);
