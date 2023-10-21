@@ -12,14 +12,14 @@ Requires at least **Java 21**.
 <dependency>
   <groupId>io.vproxy</groupId>
   <artifactId>easydb</artifactId>
-  <version>1.0.1</version>
+  <version>1.1.0</version>
 </dependency>
 ```
 
 ### gradle
 
 ```groovy
-implementation 'io.vproxy:easydb:1.0.1'
+implementation 'io.vproxy:easydb:1.1.0'
 ```
 
 ### init
