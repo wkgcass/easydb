@@ -2,6 +2,10 @@
 
 ## How to use
 
+### JDK
+
+Requires at least **Java 21**.
+
 ### maven
 
 ```xml
@@ -32,16 +36,17 @@ var jdbc = new JDBC(config);
 ### query and convert
 
 ```java
-var ls = jdbc.prepare("select * from test_user where name like ?")
-             .param("%alice%")
+var namePattern = "%alice%";
+var ls = jdbc.prepare()."select * from test_user where name like \{namePattern}"
              .query().convert(User.rule);
-// use convertFirst to convert only one row (return null if no row returned)
+// use .convertFirst(...) to convert only one row (return null if no row returned)
+// use .count() to get result of count(*) statements
 ```
 
 ### query and get result set
 
 ```java
-try (var rs = jdbc.prepare("...").query()) {
+try (var rs = jdbc.prepare()."...".query()) {
   var rs0 = rs.getResultSet();
   // ...
 }
@@ -50,15 +55,15 @@ try (var rs = jdbc.prepare("...").query()) {
 ### simple execute
 
 ```java
-jdbc.prepare("delete from test_user where 1 = 1").execute();
+jdbc.prepare()."delete from test_user where 1 = 1".execute();
 ```
 
 ### transaction
 
 ```java
 jdbc.transaction(conn -> {
-  conn.prepare("...").execute();
-  conn.prepare("...").execute();
+  conn.prepare()."...".execute();
+  conn.prepare()."...".execute();
 });
 ```
 
