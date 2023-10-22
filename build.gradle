@@ -14,7 +14,7 @@ repositories {
 
 dependencies {
     implementation 'com.zaxxer:HikariCP:5.0.1'
-    implementation 'io.vproxy:vjson:1.5.2'
+    implementation 'io.vproxy:vjson:1.5.3-jdk9'
 
     testImplementation 'mysql:mysql-connector-java:8.0.33'
     testImplementation 'org.hsqldb:hsqldb:2.7.2'
